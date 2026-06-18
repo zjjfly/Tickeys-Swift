@@ -1,0 +1,19 @@
+[package]
+name = "Tickeys"
+version = "0.5.0"
+authors = ["应元东 <ying@yingDev.com>"]
+build = "build.rs"
+
+
+[dependencies]
+libc = "0.2.1"
+cocoa = "0.2.2"
+time = "0.1.33"
+objc = "0.1.8"
+hyper = "0.7.2"
+block = "0.1.4"
+rustc-serialize = "0.3.16"
+openal-rs = "0.1.1"
+
+[dependencies.IOKit-sys]
+git = "https://github.com/yingDev/iokit-sys.git"
