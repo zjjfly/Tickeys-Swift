@@ -7,10 +7,8 @@ on:
 
 jobs:
   swift:
-    name: Swift tests (container)
-    runs-on: ubuntu-latest
-    container:
-      image: swift:6.0.0-jammy
+    name: Swift tests
+    runs-on: macos-14
     env:
       CLANG_MODULE_CACHE_PATH: .build/module-cache
       SWIFT_SCRATCH: --scratch-path .build/scratch
