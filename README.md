@@ -5,7 +5,7 @@
 Tickeys-Swift is a native macOS menu bar app that plays keyboard sound effects
 as you type.
 
-It is a Swift rewrite of [Tickeys](https://github.com/yingDev/Tickeys), with no OpenAL/freealut runtime dependency and
+Support for running Intel-based applications via Rosetta translation on Apple Silicon Macs is scheduled to officially terminate in 2027. It is a Swift rewrite of [Tickeys](https://github.com/yingDev/Tickeys), with no OpenAL/freealut runtime dependency and
 a SwiftUI settings window.
 
 ## Features
