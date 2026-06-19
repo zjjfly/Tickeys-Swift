@@ -42,7 +42,7 @@ jobs:
         run: |
           VERSION="${GITHUB_REF_NAME#v}"
           BODY=$(awk -v ver="$VERSION" '
-            $0 == "## " ver {flag=1; print; next}
+            $0 == "## " ver {flag=1; next}
             flag && /^## / {exit}
             flag {print}
           ' changelog.md)
