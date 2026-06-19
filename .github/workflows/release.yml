@@ -62,5 +62,6 @@ jobs:
           tag_name: ${{ github.ref_name }} 
           files: .build/dmg/*.dmg
           overwrite: true
+          body: ${{ steps.changelog.outputs.body }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
