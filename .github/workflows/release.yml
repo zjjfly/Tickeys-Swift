@@ -6,7 +6,24 @@ on:
       - 'v*'
 
 jobs:
+  swift:
+    name: Swift tests (container)
+    runs-on: ubuntu-latest
+    container:
+      image: swift:6.0.0-jammy
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Swift version
+        run: swift --version
+
+      - name: Test
+        run: make test
+
   release:
+    name: Create Release (macOS DMG)
+    needs: swift
     runs-on: macos-14
 
     steps:
