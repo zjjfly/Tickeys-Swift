@@ -1,0 +1,69 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  swift:
+    name: Swift tests
+    runs-on: macos-14
+    env:
+      CLANG_MODULE_CACHE_PATH: .build/module-cache
+      SWIFT_SCRATCH: --scratch-path .build/scratch
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Swift version
+        run: swift --version
+
+      - name: Test
+        run: swift run $SWIFT_SCRATCH TickeysCoreTestRunner
+
+  release:
+    name: Create Release (macOS DMG)
+    needs: swift
+    runs-on: macos-14
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build universal DMG
+        env:
+          CLANG_MODULE_CACHE_PATH: .build/module-cache
+          UNIVERSAL: '1'
+        run: bash scripts/build-dmg.sh
+
+      - name: Read changelog entry for release
+        id: changelog
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          BODY=$(awk -v ver="$VERSION" '
+            $0 == "## " ver {flag=1; print; next}
+            flag && /^## / {exit}
+            flag {print}
+          ' changelog.md)
+          if [ -z "$BODY" ]; then
+            echo "No changelog entry found for version $VERSION" >&2
+            exit 1
+          fi
+          {
+            echo 'body<<EOF'
+            printf '%s\n' "$BODY"
+            echo 'EOF'
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Create GitHub Release and upload DMG
+        uses: ncipollo/release-action@v1
+        with:
+          tag: ${{ github.ref_name }}
+          release_name: ${{ github.ref_name }}
+          body: ${{ steps.changelog.outputs.body }}
+          artifacts: .build/dmg/Tickeys-Swift.dmg
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

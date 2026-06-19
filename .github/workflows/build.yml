@@ -1,0 +1,46 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  swift:
+    name: Swift tests
+    runs-on: macos-14
+    env:
+      CLANG_MODULE_CACHE_PATH: .build/module-cache
+      SWIFT_SCRATCH: --scratch-path .build/scratch
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Swift version
+        run: swift --version
+
+      - name: Test
+        run: swift run $SWIFT_SCRATCH TickeysCoreTestRunner
+
+  macos:
+    name: macOS packaging
+    needs: swift
+    runs-on: macos-14
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build universal DMG
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+        env:
+          CLANG_MODULE_CACHE_PATH: .build/module-cache
+          UNIVERSAL: '1'
+        run: bash scripts/build-dmg.sh
+
+      - name: Upload DMG artifact
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+        uses: actions/upload-artifact@v4
+        with:
+          name: Tickeys-Swift.dmg
+          path: .build/dmg/Tickeys-Swift.dmg
