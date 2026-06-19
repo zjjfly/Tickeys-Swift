@@ -1,0 +1,29 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  macos:
+    runs-on: macos-14
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Test
+        run: make test
+
+      - name: Build universal DMG
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+        run: |
+          UNIVERSAL=1 make dmg
+
+      - name: Upload DMG artifact
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+        uses: actions/upload-artifact@v4
+        with:
+          name: Tickeys-Swift.dmg
+          path: .build/dmg/Tickeys-Swift.dmg

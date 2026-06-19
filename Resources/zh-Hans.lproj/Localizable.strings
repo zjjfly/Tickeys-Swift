@@ -1,0 +1,50 @@
+/* 
+  Localizable.strings
+  TickeysGUI
+
+  Created by Ying on 9/18/15.
+  Copyright © 2015 YingDev.com. All rights reserved.
+*/
+"Tickeys_Running" = "Tickeys-Swift正在运行";
+"press_qaz123" = "依次敲击 QAZ123 打开设置";
+"ax_tip" = "您必须将Tickeys-Swift.app添加到 系统偏好设置 > 安全与隐私 > 辅助功能 列表中并√ 才能运行。 \n完成后点击“继续”";
+"accessibility_permission_required" = "需要辅助功能权限";
+"accessibility_permission_alert" = "请在 系统设置 > 隐私与安全性 > 辅助功能 中启用 Tickeys-Swift。授权完成后 Tickeys-Swift 会自动重新开始监听；也可以从菜单栏中选择“重新监听”。";
+"accessibility_permission_notification" = "请在系统设置中启用 Tickeys-Swift，然后重新开始监听。";
+"startup_error_title" = "Tickeys-Swift 无法启动";
+"update_available_format" = "Tickeys-Swift %@ 可用";
+"open_download_page_to_update" = "打开下载页面进行更新。";
+"menu_settings" = "设置";
+"menu_retry_listening" = "重新监听";
+"menu_website" = "网站";
+"settings_sound" = "声音";
+"settings_test_sound" = "测试";
+"settings_play_test_sound" = "播放测试音效";
+"settings_subtitle" = "为你选择的应用播放键盘音效。";
+"settings_sound_section" = "声音";
+"settings_filter_section" = "应用过滤";
+"settings_volume" = "音量";
+"settings_pitch" = "音调";
+"settings_filter" = "过滤";
+"settings_blacklist" = "黑名单";
+"settings_whitelist" = "白名单";
+"settings_blacklist_description" = "在这些应用中不播放按键音。";
+"settings_whitelist_description" = "只在这些应用中播放按键音。";
+"settings_filter_apps" = "应用";
+"settings_add_app" = "添加";
+"settings_remove_app" = "移除";
+"settings_filter_empty" = "还没有添加应用。";
+"settings_filter_empty_hint" = "点击 + 选择应用。";
+"settings_choose" = "选择";
+"settings_version_format" = "版本 %@";
+"ok" = "确定";
+"quit" = "退出";
+"doneWithThis" = "继续";
+"newVersion" = "Tickeys-Swift新版本可用!";
+"bubble" = "冒泡";
+"typewriter" = "打字机";
+"mechanical" = "机械键盘";
+"sword" = "剑气";
+"Cherry G80-3000" = "Cherry G80-3000";
+"Cherry G80-3494" = "Cherry G80-3494";
+"Drum" = "爆裂鼓手";

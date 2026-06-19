@@ -1,16 +1,11 @@
-0.5.0
-增加“爆裂鼓手”音效
-增加排除列表
-设置界面改变
-再次运行程序自动打开设置界面
+# Changelog / 更新日志
 
-0.4.2
-修正系统睡眠恢复后失效问题
-
-0.4.1
-修正因在10.11下编译导致10.10中无法运行的问题
-
-0.4.0
-修正快速输入时声音不连贯问题;
-检查更新显示更新内容
-增加2款Cherry音效
+## 0.1.0
+- 完成对原版 Tickeys 的 Swift 重写
+  - Completed the Swift rewrite of the original Tickeys
+- 保留并实现原始应用的全部核心功能
+  - Retained and implemented all core features of the original app
+- 引入 macOS 原生打包支持与统一构建流程
+  - Added native macOS packaging support and a unified build workflow
+- 新增可生成 `.icns` 图标资源的自动生成脚本
+  - Added an icon generation script that can automatically create `.icns` assets

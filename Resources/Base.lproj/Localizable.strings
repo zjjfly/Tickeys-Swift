@@ -1,0 +1,50 @@
+/*
+  Localizable.strings
+  TickeysGUI
+
+  Created by Ying on 9/18/15.
+  Copyright © 2015 YingDev.com. All rights reserved.
+*/
+"Tickeys_Running" = "Tickeys-Swift is running";
+"press_qaz123" = "Press qaz123 to open settings.";
+"ax_tip" = "To run Tickeys-Swift, you MUST add Tickeys-Swift.app to `System Preferences > Security & Privacy > Accessibility` list.";
+"accessibility_permission_required" = "Accessibility permission required";
+"accessibility_permission_alert" = "Enable Tickeys-Swift in System Settings > Privacy & Security > Accessibility. Tickeys-Swift will retry listening automatically after permission is granted; you can also choose Retry Listening from the menu bar item.";
+"accessibility_permission_notification" = "Enable Tickeys-Swift in System Settings, then restart listening.";
+"startup_error_title" = "Tickeys-Swift could not start";
+"update_available_format" = "Tickeys-Swift %@ is available";
+"open_download_page_to_update" = "Open the download page to update.";
+"menu_settings" = "Settings";
+"menu_retry_listening" = "Retry Listening";
+"menu_website" = "Website";
+"settings_sound" = "Sound";
+"settings_test_sound" = "Test";
+"settings_play_test_sound" = "Play Test Sound";
+"settings_subtitle" = "Keyboard sounds for the apps you choose.";
+"settings_sound_section" = "Sound";
+"settings_filter_section" = "App Filter";
+"settings_volume" = "Volume";
+"settings_pitch" = "Pitch";
+"settings_filter" = "Filter";
+"settings_blacklist" = "Blacklist";
+"settings_whitelist" = "Whitelist";
+"settings_blacklist_description" = "Do not play sounds in these apps.";
+"settings_whitelist_description" = "Only play sounds in these apps.";
+"settings_filter_apps" = "Apps";
+"settings_add_app" = "Add";
+"settings_remove_app" = "Remove";
+"settings_filter_empty" = "No apps added.";
+"settings_filter_empty_hint" = "Use + to choose applications.";
+"settings_choose" = "Choose";
+"settings_version_format" = "Version %@";
+"ok" = "OK";
+"quit" = "Quit";
+"doneWithThis" = "Continue";
+"newVersion" = "New Version Available!";
+"bubble" = "Bubble";
+"typewriter" = "Typewriter";
+"mechanical" = "Mechanical";
+"sword" = "Sword";
+"Cherry G80-3000" = "Cherry G80-3000";
+"Cherry G80-3494" = "Cherry G80-3494";
+"Drum" = "Drum";

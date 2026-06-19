@@ -1,0 +1,49 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    runs-on: macos-14
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build universal DMG
+        run: |
+          UNIVERSAL=1 make dmg
+
+      - name: Read changelog entry for release
+        id: changelog
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          BODY=$(awk -v ver="$VERSION" '
+            $0 == "## " ver {flag=1; print; next}
+            flag && /^## / {exit}
+            flag {print}
+          ' changelog.md)
+          if [ -z "$BODY" ]; then
+            echo "No changelog entry found for version $VERSION" >&2
+            exit 1
+          fi
+          {
+            echo 'body<<EOF'
+            printf '%s\n' "$BODY"
+            echo 'EOF'
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Create GitHub Release and upload DMG
+        uses: ncipollo/release-action@v1
+        with:
+          tag: ${{ github.ref_name }}
+          release_name: ${{ github.ref_name }}
+          body: ${{ steps.changelog.outputs.body }}
+          artifacts: .build/dmg/Tickeys-Swift.dmg
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
