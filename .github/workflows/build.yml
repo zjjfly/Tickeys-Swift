@@ -12,6 +12,9 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: swift:6.0.0-jammy
+    env:
+      CLANG_MODULE_CACHE_PATH: .build/module-cache
+      SWIFT_SCRATCH: --scratch-path .build/scratch
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -20,7 +23,7 @@ jobs:
         run: swift --version
 
       - name: Test
-        run: make test
+        run: swift run $SWIFT_SCRATCH TickeysCoreTestRunner
 
   macos:
     name: macOS packaging
@@ -32,8 +35,10 @@ jobs:
 
       - name: Build universal DMG
         if: github.event_name == 'push' && github.ref == 'refs/heads/master'
-        run: |
-          UNIVERSAL=1 make dmg
+        env:
+          CLANG_MODULE_CACHE_PATH: .build/module-cache
+          UNIVERSAL: '1'
+        run: bash scripts/build-dmg.sh
 
       - name: Upload DMG artifact
         if: github.event_name == 'push' && github.ref == 'refs/heads/master'
