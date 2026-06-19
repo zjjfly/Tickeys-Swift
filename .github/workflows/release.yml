@@ -56,14 +56,11 @@ jobs:
             echo 'EOF'
           } >> "$GITHUB_OUTPUT"
 
-      - name: Create GitHub Release and upload DMG
-        uses: ncipollo/release-action@v1
+      - name: Update Release with DMG
+        uses: softprops/action-gh-release@v2
         with:
-          tag: ${{ github.ref_name }}
-          release_name: ${{ github.ref_name }}
-          body: ${{ steps.changelog.outputs.body }}
-          artifacts: .build/dmg/Tickeys-Swift.dmg
-          draft: false
-          prerelease: false
+          tag_name: ${{ github.ref_name }} 
+          files: .build/dmg/*.dmg
+          overwrite: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
