@@ -4,7 +4,7 @@
 
 Tickeys-Swift 是一个原生 macOS 菜单栏应用，可以在你打字时播放键盘音效。
 
-它是 Tickeys 的 Swift 重写版本，不再依赖 OpenAL/freealut 运行时，并提供
+Apple Silicon Mac上通过Rosetta转译运行Intel版本应用的支持，计划于2027年正式终止。它是 Tickeys 的 Swift 重写版本，不再依赖 OpenAL/freealut 运行时，并提供
 SwiftUI 设置窗口。
 
 ## 功能
