@@ -9,13 +9,13 @@
 "press_qaz123" = "依次敲击 QAZ123 打开设置";
 "ax_tip" = "您必须将Tickeys-Swift.app添加到 系统偏好设置 > 安全与隐私 > 辅助功能 列表中并√ 才能运行。 \n完成后点击“继续”";
 "accessibility_permission_required" = "需要辅助功能权限";
-"accessibility_permission_alert" = "请在 系统设置 > 隐私与安全性 > 辅助功能 中启用 Tickeys-Swift。授权完成后 Tickeys-Swift 会自动重新开始监听；也可以从菜单栏中选择“重新监听”。";
-"accessibility_permission_notification" = "请在系统设置中启用 Tickeys-Swift，然后重新开始监听。";
+"accessibility_permission_alert" = "请在 系统设置 > 隐私与安全性 > 辅助功能 中启用 Tickeys-Swift。授权完成后，按 R 重新启动监听。";
+"accessibility_permission_notification" = "请在系统设置中启用 Tickeys-Swift，然后按 R 重新启动监听。";
 "startup_error_title" = "Tickeys-Swift 无法启动";
 "update_available_format" = "Tickeys-Swift %@ 可用";
 "open_download_page_to_update" = "打开下载页面进行更新。";
 "menu_settings" = "设置";
-"menu_retry_listening" = "重新监听";
+"menu_retry_listening" = "重新启动监听";
 "menu_website" = "网站";
 "settings_sound" = "声音";
 "settings_test_sound" = "测试";
@@ -36,6 +36,10 @@
 "settings_filter_empty" = "还没有添加应用。";
 "settings_filter_empty_hint" = "点击 + 选择应用。";
 "settings_choose" = "选择";
+"settings_launch_section" = "开机启动";
+"settings_launch_at_login" = "登录时自动打开 Tickeys-Swift";
+"settings_launch_at_login_description" = "每次登录后自动启动 Tickeys-Swift。";
+"menu_launch_at_login" = "开机启动";
 "settings_version_format" = "版本 %@";
 "ok" = "确定";
 "quit" = "退出";

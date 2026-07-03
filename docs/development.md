@@ -29,7 +29,7 @@ make build-universal
 ```sh
 pkill Tickeys-Swift
 rm -rf /Applications/Tickeys-Swift.app
-cp -R .build/app/Tickeys-Swift.app /Applications/Tickeys-Swift.app
+cp -R .build/app/Tickeys-Swift.app /Applications/
 open /Applications/Tickeys-Swift.app
 ```
 

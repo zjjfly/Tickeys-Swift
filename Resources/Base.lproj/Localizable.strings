@@ -9,13 +9,13 @@
 "press_qaz123" = "Press qaz123 to open settings.";
 "ax_tip" = "To run Tickeys-Swift, you MUST add Tickeys-Swift.app to `System Preferences > Security & Privacy > Accessibility` list.";
 "accessibility_permission_required" = "Accessibility permission required";
-"accessibility_permission_alert" = "Enable Tickeys-Swift in System Settings > Privacy & Security > Accessibility. Tickeys-Swift will retry listening automatically after permission is granted; you can also choose Retry Listening from the menu bar item.";
-"accessibility_permission_notification" = "Enable Tickeys-Swift in System Settings, then restart listening.";
+"accessibility_permission_alert" = "Enable Tickeys-Swift in System Settings > Privacy & Security > Accessibility. After enabling permission, press R to restart listening.";
+"accessibility_permission_notification" = "Enable Tickeys-Swift in System Settings, then press R to restart listening.";
 "startup_error_title" = "Tickeys-Swift could not start";
 "update_available_format" = "Tickeys-Swift %@ is available";
 "open_download_page_to_update" = "Open the download page to update.";
 "menu_settings" = "Settings";
-"menu_retry_listening" = "Retry Listening";
+"menu_retry_listening" = "Restart Input Listener";
 "menu_website" = "Website";
 "settings_sound" = "Sound";
 "settings_test_sound" = "Test";
@@ -36,6 +36,10 @@
 "settings_filter_empty" = "No apps added.";
 "settings_filter_empty_hint" = "Use + to choose applications.";
 "settings_choose" = "Choose";
+"settings_launch_section" = "Launch at Login";
+"settings_launch_at_login" = "Open Tickeys-Swift at login";
+"settings_launch_at_login_description" = "Start Tickeys-Swift automatically whenever you sign in.";
+"menu_launch_at_login" = "Launch at Login";
 "settings_version_format" = "Version %@";
 "ok" = "OK";
 "quit" = "Quit";

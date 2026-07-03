@@ -1,5 +1,7 @@
 import Foundation
 
+import ServiceManagement
+
 public final class SettingsViewModel {
     public private(set) var availableSchemes: [AudioScheme]
     public private(set) var selectedSchemeName: String
@@ -7,6 +9,7 @@ public final class SettingsViewModel {
     public private(set) var pitchSliderValue: Float
     public private(set) var filterList: [String]
     public private(set) var filterListMode: FilterListMode
+    public private(set) var launchAtLogin: Bool
 
     private let controller: TickeysController
 
@@ -18,6 +21,7 @@ public final class SettingsViewModel {
         self.pitchSliderValue = Self.sliderPitch(fromEnginePitch: controller.currentPreference.pitch)
         self.filterList = controller.currentPreference.filterList
         self.filterListMode = controller.currentPreference.filterListMode
+        self.launchAtLogin = LaunchAtLoginManager.isLaunchAtLoginEnabled
     }
 
     public func selectScheme(_ schemeName: String) throws {
@@ -42,6 +46,15 @@ public final class SettingsViewModel {
     public func setFilterListMode(_ mode: FilterListMode) {
         filterListMode = mode
         controller.setFilterListMode(mode)
+    }
+
+    public func setLaunchAtLogin(_ enabled: Bool) {
+        do {
+            try LaunchAtLoginManager.setLaunchAtLogin(enabled)
+            launchAtLogin = enabled
+        } catch {
+            launchAtLogin = !enabled
+        }
     }
 
     public func addFilterApps(_ appNames: [String]) {
@@ -80,7 +93,11 @@ public final class SettingsViewModel {
     public static func sliderPitch(fromEnginePitch enginePitch: Float) -> Float {
         enginePitch > 1 ? enginePitch * (1.5 / 2.0) : enginePitch
     }
-
+    public var appVersion: String {
+        Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
+        ?? Bundle.main.infoDictionary?["CFBundleVersion"] as? String
+        ?? "0.0.0"
+    }
     private static func appName(from url: URL) -> String? {
         guard url.pathExtension == "app" else {
             return nil

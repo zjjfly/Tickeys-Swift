@@ -18,6 +18,8 @@ public struct SettingsView: View {
 
             soundSection
 
+            launchSection
+
             filterSection
 
             footer
@@ -71,6 +73,21 @@ public struct SettingsView: View {
                     range: 0.5...1.5,
                     valueText: String(format: "%.1fx", model.pitchSliderValue)
                 )
+            }
+            .padding(.vertical, 4)
+        }
+    }
+
+    private var launchSection: some View {
+        GroupBox(label: sectionTitle("settings_launch_section")) {
+            VStack(alignment: .leading, spacing: 12) {
+                Toggle(isOn: $model.launchAtLogin) {
+                    Text(LocalizedStrings.text("settings_launch_at_login"))
+                }
+
+                Text(LocalizedStrings.text("settings_launch_at_login_description"))
+                    .font(.caption)
+                    .foregroundColor(.secondary)
             }
             .padding(.vertical, 4)
         }
@@ -137,7 +154,7 @@ public struct SettingsView: View {
         HStack {
             Link(LocalizedStrings.text("menu_website"), destination: URL(string: "https://github.com/zjjfly/Tickeys-Swift")!)
             Spacer()
-            Text(LocalizedStrings.format("settings_version_format", "0.1.0"))
+            Text(LocalizedStrings.format("settings_version_format", model.appVersion))
                 .foregroundColor(.secondary)
         }
         .font(.caption)
@@ -235,6 +252,13 @@ private final class SettingsObservableModel: ObservableObject {
             viewModel.setFilterListMode(filterListMode)
         }
     }
+    @Published var launchAtLogin: Bool {
+        didSet {
+            guard oldValue != launchAtLogin else { return }
+            viewModel.setLaunchAtLogin(launchAtLogin)
+        }
+    }
+    @Published var appVersion: String
 
     private let viewModel: SettingsViewModel
 
@@ -246,6 +270,8 @@ private final class SettingsObservableModel: ObservableObject {
         self.pitchSliderValue = viewModel.pitchSliderValue
         self.filterList = viewModel.filterList
         self.filterListMode = viewModel.filterListMode
+        self.launchAtLogin = viewModel.launchAtLogin
+        self.appVersion = viewModel.appVersion
     }
 
     func addFilterAppURLs(_ urls: [URL]) {
