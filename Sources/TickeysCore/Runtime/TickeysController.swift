@@ -148,7 +148,6 @@ public final class TickeysController {
     }
 
     private func handleKeyDown(_ keyCode: UInt8) {
-        NSLog("TickeysSwift: keyDown keyCode=%d muted=%@", Int(keyCode), String(isMuted))
         let shouldOpenSettings = sequenceDetector.record(keyCode: keyCode)
         if shouldOpenSettings {
             onSettingsRequested()
