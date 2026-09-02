@@ -98,6 +98,7 @@ public final class KeyboardMonitor: KeyboardMonitoring {
 
     private let configuration: KeyboardMonitorConfiguration
     private let permissionChecker: AccessibilityPermissionChecker
+    private let eventQueue = DispatchQueue(label: "github.zjjfly.Tickeys-Swift.keyboard-events", qos: .userInitiated)
     private var eventTap: CFMachPort?
     private var runLoopSource: CFRunLoopSource?
     private var context: KeyboardMonitorContext?
@@ -121,7 +122,7 @@ public final class KeyboardMonitor: KeyboardMonitoring {
 
         stop()
 
-        let context = KeyboardMonitorContext(handler: onKeyDown)
+        let context = KeyboardMonitorContext(handler: onKeyDown, queue: eventQueue)
         let contextPointer = Unmanaged.passUnretained(context).toOpaque()
 
         guard let eventTap = CGEvent.tapCreate(
@@ -166,11 +167,13 @@ public final class KeyboardMonitor: KeyboardMonitoring {
     }
 }
 
-private final class KeyboardMonitorContext {
+private final class KeyboardMonitorContext: @unchecked Sendable {
     let handler: KeyboardMonitor.KeyHandler
+    let queue: DispatchQueue
 
-    init(handler: @escaping KeyboardMonitor.KeyHandler) {
+    init(handler: @escaping KeyboardMonitor.KeyHandler, queue: DispatchQueue) {
         self.handler = handler
+        self.queue = queue
     }
 }
 
@@ -181,6 +184,8 @@ private let keyboardEventCallback: CGEventTapCallBack = { _, type, event, userIn
 
     let context = Unmanaged<KeyboardMonitorContext>.fromOpaque(userInfo).takeUnretainedValue()
     let keyCode = UInt8(event.getIntegerValueField(.keyboardEventKeycode))
-    context.handler(keyCode)
+    context.queue.async {
+        context.handler(keyCode)
+    }
     return Unmanaged.passUnretained(event)
 }
