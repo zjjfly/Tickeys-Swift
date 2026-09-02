@@ -53,7 +53,7 @@ private final class AppDelegate: NSObject, NSApplicationDelegate {
             schemes: schemes,
             resourceBaseURL: dataURL,
             preferenceStore: PreferenceStore(),
-            soundPlayer: AVAudioEngineSoundPlayer(voiceCount: 2),
+            soundPlayer: AVAudioEngineSoundPlayer(voiceCount: 2, idleStopInterval: 5),
             keyboardMonitor: KeyboardMonitor(),
             onSettingsRequested: { [weak self] in
                 self?.showSettings()

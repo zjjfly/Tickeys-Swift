@@ -6,25 +6,37 @@ public struct KeySequenceDetector {
 
     private let sequences: [[UInt8]]
     private let maxLength: Int
-    private var recentKeys: [UInt8] = []
+    private var recentKeys: [UInt8]
+    private var nextKeyIndex = 0
 
     public init(sequences: [[UInt8]] = KeySequenceDetector.defaultSequences) {
         self.sequences = sequences
         self.maxLength = sequences.map(\.count).max() ?? 0
+        self.recentKeys = Array(repeating: 0, count: maxLength)
     }
 
     public mutating func record(keyCode: UInt8) -> Bool {
-        recentKeys.append(keyCode)
-        if recentKeys.count > maxLength {
-            recentKeys.removeFirst(recentKeys.count - maxLength)
+        guard maxLength > 0 else {
+            return false
         }
 
+        recentKeys[nextKeyIndex] = keyCode
+        nextKeyIndex = (nextKeyIndex + 1) % maxLength
+
         return sequences.contains { sequence in
-            recentKeys.suffix(sequence.count).elementsEqual(sequence)
+            guard sequence.count <= maxLength else {
+                return false
+            }
+
+            let startIndex = (nextKeyIndex - sequence.count + maxLength) % maxLength
+            return sequence.indices.allSatisfy { offset in
+                recentKeys[(startIndex + offset) % maxLength] == sequence[offset]
+            }
         }
     }
 
     public mutating func reset() {
-        recentKeys.removeAll(keepingCapacity: true)
+        recentKeys = Array(repeating: 0, count: maxLength)
+        nextKeyIndex = 0
     }
 }

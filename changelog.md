@@ -1,5 +1,9 @@
 # Changelog / 更新日志
 
+## 0.1.2
+- 优化键盘监听与音频引擎的空闲CPU占用：异步处理键盘事件、使用环形缓冲区检测序列，并在连续5秒无播放后停止音频引擎
+  - Reduced idle CPU usage in keyboard monitoring and audio playback by processing keyboard events asynchronously, using a ring buffer for sequence detection, and stopping the audio engine after 5 seconds without playback
+
 ## 0.1.1
 - 升级最低系统要求至 macOS 13
   - Raised minimum supported macOS version to macOS 13

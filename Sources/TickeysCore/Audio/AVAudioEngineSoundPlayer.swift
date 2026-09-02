@@ -5,6 +5,7 @@ import Foundation
 public final class AVAudioEngineSoundPlayer: SoundPlayer, @unchecked Sendable {
     public private(set) var loadedSoundCount: Int = 0
     public let voiceCount: Int
+    public let idleStopInterval: TimeInterval
     public private(set) var volume: Float = 1.0
     public private(set) var pitch: Float = 1.0
 
@@ -13,11 +14,17 @@ public final class AVAudioEngineSoundPlayer: SoundPlayer, @unchecked Sendable {
     private var voices: [Voice]
     private var buffers: [AVAudioPCMBuffer] = []
     private var nextVoiceIndex = 0
+    private var idleStopWorkItem: DispatchWorkItem?
     private let outputFormat: AVAudioFormat
 
-    public init(voiceCount: Int = 2, engine: AVAudioEngine = AVAudioEngine()) {
+    public init(
+        voiceCount: Int = 2,
+        idleStopInterval: TimeInterval = 1.0,
+        engine: AVAudioEngine = AVAudioEngine()
+    ) {
         self.playerQueue = DispatchQueue(label: "github.zjjfly.Tickeys-Swift.sound-player", qos: .userInitiated)
         self.voiceCount = max(1, voiceCount)
+        self.idleStopInterval = max(0, idleStopInterval)
         self.engine = engine
         self.outputFormat = engine.outputNode.inputFormat(forBus: 0)
         self.voices = []
@@ -57,13 +64,6 @@ public final class AVAudioEngineSoundPlayer: SoundPlayer, @unchecked Sendable {
 
         buffers = loadedBuffers
         loadedSoundCount = buffers.count
-        do {
-            if !engine.isRunning {
-                try engine.start()
-            }
-        } catch {
-            throw SoundPlayerError.engineStartFailed
-        }
     }
 
     public func setVolume(_ volume: Float) {
@@ -93,21 +93,58 @@ public final class AVAudioEngineSoundPlayer: SoundPlayer, @unchecked Sendable {
             guard let self = self else {
                 return
             }
+
+            guard self.startEngineIfNeeded() else {
+                return
+            }
+
+            self.idleStopWorkItem?.cancel()
             let voice = self.voices[self.nextVoiceIndex]
             self.nextVoiceIndex = (self.nextVoiceIndex + 1) % self.voices.count
 
             voice.playerNode.stop()
             voice.playerNode.scheduleBuffer(self.buffers[index], at: nil, options: .interrupts)
             voice.playerNode.play()
+
+            let stopWorkItem = DispatchWorkItem { [weak self] in
+                guard let self = self else {
+                    return
+                }
+                self.stopAllOnQueue()
+            }
+            self.idleStopWorkItem = stopWorkItem
+            self.playerQueue.asyncAfter(deadline: .now() + self.idleStopInterval, execute: stopWorkItem)
         }
 
         return true
     }
 
     public func stopAll() {
+        playerQueue.sync {
+            stopAllOnQueue()
+        }
+    }
+
+    private func startEngineIfNeeded() -> Bool {
+        guard !engine.isRunning else {
+            return true
+        }
+
+        do {
+            try engine.start()
+            return true
+        } catch {
+            return false
+        }
+    }
+
+    private func stopAllOnQueue() {
+        idleStopWorkItem?.cancel()
+        idleStopWorkItem = nil
         for voice in voices {
             voice.playerNode.stop()
         }
+        engine.stop()
     }
 
     private static func loadBuffer(from url: URL, targetFormat: AVAudioFormat) throws -> AVAudioPCMBuffer {

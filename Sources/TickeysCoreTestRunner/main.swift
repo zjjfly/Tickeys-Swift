@@ -1,4 +1,5 @@
 import Foundation
+import AVFoundation
 import TickeysCore
 
 @main
@@ -18,6 +19,8 @@ struct TickeysCoreTestRunner {
         testRepeatedKeyThrottlerSuppressesSameKeyWithinWindow()
         testKeySequenceDetectorDetectsQAZ123Variants()
         try testAVAudioEngineSoundPlayerLoadsBundledWavFiles()
+        testAVAudioEngineSoundPlayerAcceptsConfigurableIdleStopInterval()
+        try testAVAudioEngineSoundPlayerStaysStoppedUntilPlayback()
         try testAVAudioEngineSoundPlayerReportsMissingFile()
         try testAVAudioEngineSoundPlayerUpdatesVolumeAndPitch()
         try testAVAudioEngineSoundPlayerIgnoresOutOfBoundsPlayIndex()
@@ -279,6 +282,24 @@ private func testAVAudioEngineSoundPlayerLoadsBundledWavFiles() throws {
 
     expectEqual(player.loadedSoundCount, 1)
     expectEqual(player.voiceCount, 2)
+}
+
+private func testAVAudioEngineSoundPlayerStaysStoppedUntilPlayback() throws {
+    let file = try resourceURL("Resources/data/bubble/1.wav")
+    let engine = AVAudioEngine()
+    let player = AVAudioEngineSoundPlayer(voiceCount: 2, engine: engine)
+
+    try player.load(files: [file])
+
+    expect(!engine.isRunning)
+}
+
+private func testAVAudioEngineSoundPlayerAcceptsConfigurableIdleStopInterval() {
+    let player = AVAudioEngineSoundPlayer(voiceCount: 2, idleStopInterval: 2.5)
+    let clampedPlayer = AVAudioEngineSoundPlayer(voiceCount: 2, idleStopInterval: -1)
+
+    expectEqual(player.idleStopInterval, 2.5)
+    expectEqual(clampedPlayer.idleStopInterval, 0)
 }
 
 private func testAVAudioEngineSoundPlayerReportsMissingFile() throws {
